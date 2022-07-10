@@ -20,8 +20,6 @@ const Questions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // console.log(amount_of_questions, question_category, question_difficulty, question_type);
-
   let apiUrl = `/api.php?amount=${amount_of_questions}`;
 
   if (question_category) {
@@ -34,17 +32,15 @@ const Questions = () => {
     apiUrl = apiUrl.concat(`&type=${question_type}`);
   }
 
+  console.log(question_category, question_difficulty, question_type, amount_of_questions);
+
   const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
   };
 
   const { response, loading } = useAxios({ url: apiUrl });
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [options, setOptions] = useState([]);
-
-  console.log(response);
-
-  console.log(options);
+  const [options, setOptions] = useState([]);  
   
   useEffect(() => {
     if (response?.results.length) {
@@ -83,19 +79,19 @@ const Questions = () => {
   
   return (
       <Box>
-      <Typography variant="h4">Questions {questionIndex + 1}</Typography>
-      <Typography mt={5}>
-        {decode(response.results[questionIndex].question)}
-      </Typography>      
-      {options.map((data, id) => (
-        <Box mt={2} key={id}>
-          <Button onClick={handleClickAnswer} variant="contained">
-            {decode(data)}
-          </Button>
-        </Box>
-      ))}
+        <Typography variant="h4">Question {questionIndex + 1}</Typography>
+        <Typography mt={5}>
+          {decode(response.results[questionIndex].question)}
+        </Typography>      
+        {options.map((data, id) => (
+          <Box mt={2} key={id}>
+            <Button onClick={handleClickAnswer} variant="contained">
+              {decode(data)}
+            </Button>
+          </Box>
+        ))}
         <Box mt={5}>
-          Score: 3/3
+          Score: {score} / {response.results.length}
         </Box>
     </Box>
     )
