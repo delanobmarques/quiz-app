@@ -1,10 +1,13 @@
-import { Typography, Box, Button , CircularProgress } from "@mui/material";
+import { Typography, Button , CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
 import useAxios from "../api/useAxios";
 import SelectField from "../components/select-field.component";
 import TextFieldComp from "../components/text-field.component";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
     const { response, error, loading } = useAxios({ url: "/api_category.php" });
+    const navigate = useNavigate();
 
     if(loading){
         return (
@@ -33,8 +36,9 @@ const Settings = () => {
         {id: "boolean", name: "True or False"},
     ]
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate('/questions');
     };
   
     return (
